@@ -1,0 +1,66 @@
+<form id="searchform" name="searchform" action="<root />/tournaments" method="get">
+	<input type="text" id="name" name="name" placeholder="Tournament name" value="<tournamentname />" /><br />
+	<input type="text" id="region" name="region" placeholder="Region" value="<tournamentregion />" /><br />
+	<input type="text" id="date" name="date" placeholder="Date" value="<tournamentdate />" /><br />
+	<input type="text" id="game" name="game" placeholder="Game" value="<tournamentgame />" /><br />
+	<input type="text" id="type" name="type" placeholder="Type" value="<tournamenttype />" /><br />
+	<input type="checkbox" id="rated" name="rated" <tournamentrated /> /><label for="rated">Only rated</label><br />
+	<input type="submit" value="Search" />
+</form>
+<div id="results"><ul><results /></ul></div>
+<script type="text/javascript">
+	(function () {
+		'use strict';
+		var results = document.getElementById('results'),
+			name = document.getElementById('name'),
+			region = document.getElementById('region'),
+			date = document.getElementById('date'),
+			game = document.getElementById('game'),
+			type = document.getElementById('type'),
+			rated = document.getElementById('rated'),
+			root = document.getElementById('weblocation').value,
+			fetchLocation = root + '/tsajax',
+			searchLocation = root + '/tournaments',
+			requestId = 0,
+			tournamentLocation = root + '/tournament/',
+			updateResults = function () {
+				var i,
+					jsonData = JSON.parse(this.responseText),
+					row,
+					ul,
+					li,
+					a,
+					time;
+				if (parseInt(jsonData[0]) === requestId) {
+					results.removeChild(results.childNodes[0]);
+					ul = document.createElement('ul');
+					for (i = 1; i < jsonData.length; i++) {
+						row = jsonData[i];
+						li = document.createElement('li');
+						a = document.createElement('a');
+						a.href = tournamentLocation + row.id;
+						a.appendChild(document.createTextNode(row.name));
+						li.appendChild(a);
+						li.appendChild(document.createTextNode(' on ' + row.date));
+						ul.appendChild(li);
+					}
+					results.appendChild(ul);
+					window.history && history.pushState(undefined, 'Search', searchLocation + '?name=' + encodeURIComponent(name.value) + '&region=' + encodeURIComponent(region.value) + '&date=' + encodeURIComponent(date.value) + '&game=' + encodeURIComponent(game.value) + '&type=' + encodeURIComponent(type.value) + '&rated=' + encodeURIComponent(rated.checked))
+				}
+			},
+			fetchNewResults = function () {
+				requestId++;
+				Site.getFile(fetchLocation + '?name=' + encodeURIComponent(name.value) + '&region=' + encodeURIComponent(region.value) + '&date=' + encodeURIComponent(date.value) + '&game=' + encodeURIComponent(game.value) + '&type=' + encodeURIComponent(type.value) + '&rated=' + encodeURIComponent(rated.checked) + '&id=' + requestId, updateResults);
+			};
+		document.getElementById('searchform').addEventListener('submit', function (e) {
+			fetchNewResults();
+			e.preventDefault();
+		}, false);
+		name.addEventListener('change', fetchNewResults, false);
+		region.addEventListener('change', fetchNewResults, false);
+		date.addEventListener('change', fetchNewResults, false);
+		game.addEventListener('change', fetchNewResults, false);
+		type.addEventListener('change', fetchNewResults, false);
+		rated.addEventListener('change', fetchNewResults, false);
+	}());
+</script>

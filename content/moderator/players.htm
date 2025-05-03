@@ -1,0 +1,24 @@
+Rename <input class="autocomplete" data-script="/psauto" data-forcematch="true" type="text" id="fromname" placeholder="from" /> to <input class="autocomplete" data-script="/psauto" type="text" id="toname" placeholder="to" /><br />
+Game:<input type="text" id="game" /><br />
+<select id="games" multiple="multiple">
+</select><br />
+Merge IDs: <input type="text" id="fromid" placeholder="from" data-msg="true" /><span>(id)</span> to <input type="text" id="toid" placeholder="to" /><br />
+<script type="text/javascript">
+(function () {
+	'use strict';
+	var fromname = document.getElementById('fromname'),
+		toname = document.getElementById('toname'),
+		fromid = document.getElementById('fromid'),
+		toid = document.getElementById('toid');
+	fromname.addEventListener('autocomplete', function (e) {
+		if (e.response.status) {
+			fromid.value = e.response.playerid;
+		}
+	}, false);
+	toname.addEventListener('autocomplete', function (e) {
+		if (e.response.status) {
+			toid.value = e.response.playerid;
+		}
+	}, false);
+}());
+</script>

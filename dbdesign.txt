@@ -1,0 +1,89 @@
+USER
+userid primary int
+username text
+pwhash text
+created int -- seconds since epoch
+
+USERDATA
+userid int
+attribute text
+data blob
+
+REGION
+regionid primary int
+name text
+
+PLAYER
+playerid primary int
+nickname text
+regionid int
+currentelo real
+lastchanged int
+
+PLAYERDATA
+playerid int
+attribute text
+data blob
+
+PLAYERHISTORY
+playerid int
+timestamp int
+elo real
+
+TOURNAMENT
+tournamentid primary int
+timestamp int
+uploaderid int
+regionid int
+tiosourcelocation text
+jsondata text
+
+TOURNAMENTDATA
+tournamentid int
+attribute text
+data blob
+
+GAME
+gameid primary int
+name text
+aliasedid int
+
+EVENT
+eventid primary int
+tournamentid int
+gameid int
+timestamp int
+order int
+
+MATCH
+matchid primary int
+order int
+tournamentid int
+eventid int
+round int
+winnerid int
+loserid int
+winnerelo real
+loserelo real
+winnergain real
+losergain real
+
+MATCHDATA
+matchid primary int
+attribute text
+data blob
+
+
+
+USERDATABASE DB
+
+USER
+userid primary int
+username text
+pwhash text
+created int
+
+USERDATA
+userid int
+attribute text
+data blob

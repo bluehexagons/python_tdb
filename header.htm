@@ -1,0 +1,10 @@
+<div class="header">
+<input type="hidden" id="weblocation" value="<root />">
+<a href="<root />">Home</a> 
+<loggedin>Welcome back, <a href="<root />/users/<userid />"><username /></a>! <a href="<root />/profile">Profile</a> <a href="<root />/logout">Log out</a></loggedin>
+<loggedout><a href="<root />/register">Register</a> <a href="<root />/login">Log in</a></loggedout>
+<canupload><a href="<root />/upload">Upload tournament files</a></canupload>
+<moderator><a href="<root />/moderator">Moderator tools</a></moderator>
+<form name="tsearch" action="<root />/tsearch" method="get" style="display: inline;"><input type="text" name="tournament" placeholder="Tournament Search" /><input type="submit" value="" /></form>
+<form name="psearch" action="<root />/psearch" method="get" style="display: inline;"><input class="autocomplete" data-script="/psauto" type="text" name="player" placeholder="Player Search" /><input type="submit" value="" /></form>
+</div>

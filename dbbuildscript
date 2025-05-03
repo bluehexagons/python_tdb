@@ -1,0 +1,147 @@
+/*
+	All dates are stored as integers, seconds since epoch, GMT time zone
+*/
+CREATE TABLE metadata ( -- data about the database
+	metaid integer primary key autoincrement,
+	attribute text,
+	value blob
+);
+INSERT INTO metadata (attribute, value) VALUES ('backup', 0); -- adds a backup date to the database
+CREATE TABLE user (
+	userid integer primary key autoincrement,
+	username text collate nocase,
+	pwhash text,
+	pwreps int, -- repetitions used when hashing this user's password
+	certified int default 0, -- determines if a user can upload, etc
+	referredby int, -- references the userid of the user who certified this user
+	created int, -- time account was created
+	lastactive int -- last time account was signed in
+);
+CREATE INDEX username_index ON user(username, pwhash);
+CREATE TABLE userdata ( -- extra data about users
+	userid int,
+	attribute text,
+	data blob
+);
+CREATE INDEX userdata_index ON userdata(attribute);
+CREATE TABLE usersession ( -- cookie session data
+	userid int,
+	token text, -- sha256 hash of cookie token
+	created int, -- time session started
+	expires int -- time session expires
+);
+CREATE INDEX token_index ON usersession(token);
+CREATE TABLE region ( -- regions (eg. USA, KS, MO, etc)
+	regionid integer primary key autoincrement,
+	name text collate nocase
+);
+CREATE TABLE regiondata ( -- data about regions (for example, within another region (Missouri within USA, France within Europe), related to another region)
+	regionid int,
+	attribute text,
+	data blob
+);
+CREATE INDEX regiondata_index ON regiondata(attribute);
+INSERT INTO region (regionid, name) VALUES (-1, 'None'); -- creates a region for users with no region
+CREATE TABLE game ( -- game information, categorized by game name (Super Smash Bros. Melee, Super Smash Bros. Brawl) and category (Singles, Doubles)
+	gameid integer primary key autoincrement,
+	name text collate nocase,
+	category text collate nocase, -- type of game mode, eg Singles or Doubles
+	aliasedid int default -1 -- set if the game is referencing another game (Melee may reference Super Smash Bros. Melee), may move to gamedata
+);
+CREATE INDEX gamename_index ON game(name);
+CREATE TABLE gamedata ( -- extra data about games
+	gameid int,
+	attribute text,
+	data blob
+);
+CREATE INDEX gamedata_index ON gamedata(attribute);
+CREATE TABLE player ( -- data about players in tournaments, separated by game
+	playerid integer primary key autoincrement,
+	nickname text collate nocase,
+	regionid int default -1,
+	gameid int,
+	currentelo real,
+	lastchanged int -- date of the last time the player's elo was changed
+);
+CREATE INDEX player_index ON player(nickname, gameid);
+CREATE TABLE playerdata ( -- extra data about players
+	playerid int,
+	attribute text,
+	data blob
+);
+CREATE INDEX playerdata_index ON playerdata(attribute);
+CREATE TABLE playerhistory ( -- snapshots of a player's rating over time
+	playerid int,
+	timestamp int,
+	rating real
+);
+CREATE TABLE series ( -- tournament series or circuit
+	seriesid integer primary key autoincrement,
+	name text collate nocase,
+	regionid int,
+	createrid int -- userid of creator of series (co-owners defined in series data)
+);
+CREATE TABLE seriesdata (
+	seriesid int,
+	attribute text,
+	data blob
+);
+CREATE TABLE tournament ( -- data relating to tournaments
+	tournamentid integer primary key autoincrement,
+	name text collate nocase,
+	timestamp int, -- time the tournament was started
+	timeprocessed int,
+	uploaderid int, -- userid of the user who uploaded the tournament
+	regionid int,
+	original text, -- file name of the backed-up original source file
+	jsondata text, -- compiled jsondata version for bracket viewer
+	published int default 0 -- set to 1 if the tournament has been published
+);
+CREATE INDEX tournamentname_index ON tournament(name);
+CREATE TABLE tournamentdata ( -- extra data about tournaments
+	tournamentid int,
+	attribute text,
+	data blob
+);
+CREATE INDEX tournamentdata_index ON tournamentdata(attribute);
+CREATE TABLE archive ( -- orphaned tournament backup files
+	tournamentid int,
+	timeprocessed int,
+	uploaderid int,
+	original text
+);
+CREATE TABLE event ( -- data about individual events (for instance, Melee Singles Pools, etc)
+	eventid integer primary key autoincrement,
+	tournamentid int,
+	name text collate nocase,
+	gameid int,
+	timestamp int, -- time the event was started
+	orderstamp int, -- order within the containing tournament that this event happened
+	rated int default 0 -- 1 if the event is rated
+);
+CREATE INDEX eventtournament_index ON event(tournamentid);
+CREATE TABLE match ( -- data about individual matches within an event
+	matchid integer primary key autoincrement,
+	gameid int,
+	tournamentid int,
+	eventid int,
+	round int,
+	matchorder, -- order of this match within its event
+	winnerid int, -- playerid of the winner (note: if a tie, just player 1)
+	loserid int, -- playerid of the loser
+	wins int,
+	losses int, -- of the winner (loser's wins)
+	winnerelo real, -- at the start of the match
+	loserelo real,
+	winnergain real, -- gained elo for the match (sometimes approximated)
+	losergain real,
+	rated int default 0
+);
+CREATE INDEX matchorder_index ON match(orderstamp);
+CREATE INDEX matchevent_index ON match(eventid);
+CREATE TABLE matchdata ( -- extra data about matches
+	matchid int,
+	attribute text,
+	data blob
+);
+CREATE INDEX matchdata_index ON matchdata(attribute);

@@ -1,0 +1,62 @@
+Note: during alpha stages, accounts may be deleted.<br />
+<form name="register" id="register" action="register" method="post">
+	<label for="username">Username</label> <input type="text" name="username" id="username" autofocus="autofocus" placeholder="Username" /><br />
+	<label for="password">Password</label> <input type="password" name="password" id="password" placeholder="Password" /> <label for="password" id="passmsg">&nbsp;</label><br />
+	<label for="nickname">Nickname (optional)</label> <input type="text" name="nickname" /><br />
+	<input type="submit" id="submit" value="Register" />
+</form>
+<script type="text/javascript">
+(function () {
+	'use strict';
+	var username = document.getElementById('username'),
+		password = document.getElementById('password'),
+		passmsg = document.getElementById('passmsg'),
+		checkPass = function () {
+			if (password.value.length < 6) {
+				passmsg.innerText = 'It\'s recommended to use a password with six or more characters, and have some degree of complexity.';
+			} else {
+				if (password.value.search(/[A-Z\d\W]/) === -1) {
+					passmsg.innerText = 'Well, you could add a number, capital letter, or special character.. if you want to.';
+				} else if (password.value.search(/[\d\W]/) === -1) {
+					passmsg.innerText = 'Adding a number or special character never hurt anyone.';
+				} else if (password.value.search(/[A-Z\W]/) === -1) {
+					passmsg.innerText = 'Adding a capital letter or special character never hurt anyone.';
+				} else if (password.value.length < 8) {
+					passmsg.innerText = 'If you want to try a longer password, you could always come up with a simple, memorable phrase.';
+				} else {
+					passmsg.innerText = 'Probably good enough.';
+				}
+			}
+		},
+		badwords = ['abc123', 'password', 'Password', '1Password', 'Password1', '123456', '1234567', '12345678', 'qwerty', 'letmein', '111111', '123123', '654321', 'passw0rd'],
+		leavePass = function () {
+			if (password.value.length !== 0 && (password.value.length < 6 || badwords.filter(function (a) {return a === password.value;}).length > 0)) {
+				passmsg.innerText = 'You should probably rethink your password choice.';
+			} else {
+				passmsg.innerText = '';
+			}
+		};
+	username.addEventListener('change', function () {
+		Site.getFile('?' + encodeURIComponent(username.value), function () {
+			if (parseInt(this.responseText)) {
+				username.className = 'confirmed';
+			} else {
+				username.className = 'denied';
+			}
+		});
+	}, false);
+	password.addEventListener('keyup', checkPass, false);
+	password.addEventListener('focus', checkPass, false);
+	password.addEventListener('blur', leavePass, false);
+	document.getElementById('register').addEventListener('submit', function (e) {
+		if (username.value.length === 0 || password.value.length === 0) {
+			e.preventDefault();
+			password.value.length === 0 && password.focus();
+			username.value.length === 0 && username.focus();
+		}
+	}, false);
+	document.getElementById('submit').addEventListener('click', function () {
+		document.getElementById('submit').value = 'Processing...';
+	}, false);
+}());
+</script>

@@ -1,0 +1,13 @@
+<form name="login" id="login" action="login" method="post">
+	<label for="username">Username</label> <input type="text" name="username" id="username" autofocus="autofocus" placeholder="Username" /><br />
+	<label for="password">Password</label> <input type="password" name="password" id="password" placeholder="Password" /><br />
+	<label for="rememberme">Remember Me</label> <input type="checkbox" name="rememberme" /><br />
+	<input type="submit" id="submit" value="Login" />
+</form>
+<script type="text/javascript">
+	(function () {
+		document.getElementById('submit').addEventListener('click', function () {
+			document.getElementById('submit').value = 'Processing...';
+		}, false);
+	}())
+</script>
