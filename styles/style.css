@@ -1,0 +1,69 @@
+body {
+	font-family: sans-serif;
+	font-size: 10pt;
+}
+input.confirmed {
+	border: 1px solid rgb(0, 128, 0);
+	background: rgb(128, 255, 128);
+}
+input.denied {
+	border: 1px solid rgb(128, 0, 0);
+	background: rgb(255, 200, 200);
+}
+span.flag {
+	color: #900;
+	cursor: default;
+	background: white;
+}
+span.flag a {
+	padding-left: 4px;
+	padding-right: 4px;
+	display: none;
+}
+span.flag input {
+	cursor: text;
+}
+span.flag button {
+	cursor: pointer;
+	background: none;
+	font-style: bold;
+}
+span.flag:hover a {
+	display: inline-block;
+}
+.i0 {background-position: 0px;}
+.i1 {background-position: 24px;}
+.i2 {background-position: 48px;}
+.i3 {background-position: 72px;}
+.i4 {background-position: 96px;}
+.i5 {background-position: 120px;}
+.i6 {background-position: 144px;}
+.i7 {background-position: 168px;}
+.i8 {background-position: 192px;}
+.i9 {background-position: 216px;}
+.i10 {background-position: 240px;}
+.i11 {background-position: 264px;}
+.i12 {background-position: 288px;}
+.i13 {background-position: 312px;}
+.i14 {background-position: 336px;}
+.i15 {background-position: 360px;}
+.i16 {background-position: 384px;}
+.i17 {background-position: 408px;}
+.i18 {background-position: 432px;}
+.i19 {background-position: 456px;}
+.i20 {background-position: 480px;}
+.i21 {background-position: 504px;}
+.i22 {background-position: 528px;}
+.i23 {background-position: 552px;}
+.i24 {background-position: 576px;}
+.i25 {background-position: 600px;}
+.i26 {background-position: 624px;}
+.i27 {background-position: 648px;}
+.i28 {background-position: 672px;}
+.i29 {background-position: 696px;}
+span.ssbm {
+	background-image: url('meleesprites.png');
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+}
