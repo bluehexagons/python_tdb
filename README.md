@@ -5,6 +5,8 @@ It was originally focused on organizing tournaments and running brackets, but I 
 to help the various tournament cataloguing projects of the time (e.g. SSBPD) and bring all of the various ideas together.
 The Python TDB (Tournament Database) was my very first attempt to build a real web application intended for other people to use.
 
+![test](https://github.com/bluehexagons/python_tdb/blob/main/styles/meleesprites.png)
+
 ## What it did
 
 Users could browse and search tournaments with Canvas2D brackets (single/double elimination and round robin), players,
@@ -13,7 +15,7 @@ A tournament organizer could upload tournaments as `.tio` files, adjust properti
 
 The ratings, using the Elo algorithm, were designed to be run incrementally when new tournaments were added.
 
-## What's Here
+## What's here
 
 This copy of the codebase is untested, I just went looking for it today after noticing it wasn't online anywhere.
 I'm not sure if this is the latest version or just a random snapshot. If I find a better copy, I'll update this.
@@ -62,11 +64,11 @@ pwrepetitions = config.getint('location', 'pwrepetitions')
 
 I'm not sure.
 
-### What use is it, then?
+### What use is it
 
 I'm not sure about this, either.
 
-## References
+## More reading
 
 SSBPD on SmashBoards: https://smashboards.com/threads/official-ssbpd-unsupported-source-code-released.318870
 
