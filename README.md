@@ -29,11 +29,13 @@ snsalt = config.get('location', 'snsalt')
 pwrepetitions = config.getint('location', 'pwrepetitions')
 ```
 
-## References
+## What TDB did
 
-SSBPD on SmashBoards: https://smashboards.com/threads/official-ssbpd-unsupported-source-code-released.318870
+Users could browse and search tournaments with Canvas2D brackets (single/double elimination and round robin), players,
+multiple games (e.g. Super Smash Bros Melee, Brawl, Street Fighter), and it fully supported doubles and teams.
+A tournament organizer could upload tournaments as `.tio` files, adjust properties, and so on.
 
-SSBPD source code (released after this was made, but relevant): https://github.com/FoxLisk/SSBPD
+The ratings, using the Elo algorithm, were designed to be run incrementally when new tournaments were added.
 
 ## What's Here
 
@@ -54,10 +56,16 @@ The UI is designed around a widget and template model. I don't know if all of th
 
 The bracket code is the only thing nicely separated from the rest, because it came from my former project. It reads and writes JSON.
 
-## What TDB did
+### How to run this
 
-Users could browse and search tournaments with Canvas2D brackets (single/double elimination and round robin), players,
-multiple games (e.g. Super Smash Bros Melee, Brawl, Street Fighter), and it fully supported doubles and teams.
-A tournament organizer could upload tournaments as `.tio` files, adjust properties, and so on.
+I'm not sure.
 
-The ratings, using the Elo algorithm, were designed to be run incrementally when new tournaments were added.
+### What use is it, then?
+
+I'm not sure about this, either.
+
+## References
+
+SSBPD on SmashBoards: https://smashboards.com/threads/official-ssbpd-unsupported-source-code-released.318870
+
+SSBPD source code (released after this was made, but relevant): https://github.com/FoxLisk/SSBPD
